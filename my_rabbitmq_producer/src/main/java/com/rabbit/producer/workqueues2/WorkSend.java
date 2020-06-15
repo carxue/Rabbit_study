@@ -5,7 +5,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class WorkSend {
-	private final static String QUEUE_NAME = "durable_queue";
+	private final static String QUEUE_NAME = "durable_queue";//durable_queue
 
 	public static void main(String[] argv) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();

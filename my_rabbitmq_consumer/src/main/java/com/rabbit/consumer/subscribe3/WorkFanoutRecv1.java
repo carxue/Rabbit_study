@@ -20,6 +20,8 @@ public class WorkFanoutRecv1 {
 		Connection connection = factory.newConnection();
 		final Channel channel = connection.createChannel();
 		channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+		//创建随机队列-非持久、唯一性、自动删除等特性:该队列可以用于日志队列具有1.随时连接都是刷新和空的
+		//2.一旦断开连接消费者队列应该被自动删除
 	    String queueName = channel.queueDeclare().getQueue();
 	    channel.queueBind(queueName, EXCHANGE_NAME, "");
 		
