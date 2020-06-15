@@ -13,9 +13,9 @@ public class TopicSend {
 
 	public static void main(String[] argv) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("10.41.13.128");
-		factory.setUsername("xuekui");
-		factory.setPassword("xuekui");
+		factory.setHost("localhost");
+//		factory.setUsername("xuekui");
+//		factory.setPassword("xuekui");
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		
