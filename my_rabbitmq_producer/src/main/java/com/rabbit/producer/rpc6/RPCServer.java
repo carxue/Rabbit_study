@@ -43,7 +43,7 @@ public class RPCServer {
 						byte[] body) throws IOException {
 					AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder()
 							.correlationId(properties.getCorrelationId()).build();
-
+					System.out.println("server recived correlationId:"+properties.getCorrelationId());
 					String response = "";
 
 					try {

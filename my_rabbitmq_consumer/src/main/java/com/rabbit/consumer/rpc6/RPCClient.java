@@ -32,7 +32,7 @@ public class RPCClient {
 
 	public String call(String message) throws IOException, InterruptedException {
 		final String corrId = UUID.randomUUID().toString();
-
+		System.out.println("corrId:"+corrId);
 		AMQP.BasicProperties props = new AMQP.BasicProperties.Builder().correlationId(corrId).replyTo(replyQueueName)
 				.build();
 
@@ -43,7 +43,7 @@ public class RPCClient {
 		channel.basicConsume(replyQueueName, true, new DefaultConsumer(channel) {
 			@Override
 			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
-					byte[] body) throws IOException {
+					byte[] body) throws IOException {//envelope信封、包层
 				if (properties.getCorrelationId().equals(corrId)) {
 					response.offer(new String(body, "UTF-8"));//a队列插入数据:队列未满时，返回true；队列满时返回false。非阻塞立即返回
 				}
