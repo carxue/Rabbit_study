@@ -45,12 +45,12 @@ public class RPCClient {
 			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
 					byte[] body) throws IOException {
 				if (properties.getCorrelationId().equals(corrId)) {
-					response.offer(new String(body, "UTF-8"));//队列未满时，返回true；队列满时返回false。非阻塞立即返回
+					response.offer(new String(body, "UTF-8"));//a队列插入数据:队列未满时，返回true；队列满时返回false。非阻塞立即返回
 				}
 			}
 		});
 
-		return response.take();//队列不为空返回队首值并移除；当队列为空时会阻塞等待，一直等到队列不为空时再返回队首值
+		return response.take();//删除队列中的值:队列不为空返回队首值并移除；当队列为空时会阻塞等待，一直等到队列不为空时再返回队首值
 	}
 
 	public void close() throws IOException {
