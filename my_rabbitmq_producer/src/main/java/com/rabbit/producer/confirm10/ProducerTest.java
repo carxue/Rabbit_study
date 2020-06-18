@@ -79,9 +79,10 @@ class Sender1{
 						System.out.println("Basic.Return返回的结果replyCode:"+arg0+" replyText:"+arg2+" routingKey:"+arg3+" body:"+ message);
 					}
 				});
-				if(!channel.waitForConfirms()){
+				if(!channel.waitForConfirms()){//这种是普通的确认模式
 				    System.out.println("send message failed.");
 				}
+				//批量Confirm模式  channel.waitForConfirmsOrDie();//直到所有信息都发布，只要有一个未确认就会IOException
 			}
 			
 			
