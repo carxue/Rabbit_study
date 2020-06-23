@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.ConfirmListener;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
@@ -58,6 +59,19 @@ class Sender1{
 			
 			
 			channel.confirmSelect();
+			
+			channel.addConfirmListener(new ConfirmListener() {
+	            @Override
+	            public void handleNack(long deliveryTag, boolean multiple) throws IOException {
+	                System.out.println("nack: deliveryTag = " + deliveryTag + " multiple: " + multiple);
+	            }
+	            @Override
+	            public void handleAck(long deliveryTag, boolean multiple) throws IOException {
+	                System.out.println("ack: deliveryTag = " + deliveryTag + " multiple: " + multiple);
+	            }
+	        });
+			
+			
 			// 创建exchange
 			channel.exchangeDeclare(exchangeName, "direct", true, false, null);
 			// 创建队列

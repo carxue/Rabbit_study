@@ -86,22 +86,22 @@ class Sender2 {
 			channel.queueBind(queueName, exchangeName, bindingKey);
 			// 发送持久化消息
 			for (int i = 0; i < count; i++) {
-				long nextSeqNo = channel.getNextPublishSeqNo();
+				long nextSeqNo = channel.getNextPublishSeqNo();//从1开自增
 				// 第一个参数是exchangeName(默认情况下代理服务器端是存在一个""名字的exchange的,
 				// 因此如果不创建exchange的话我们可以直接将该参数设置成"",如果创建了exchange的话
 				// 我们需要将该参数设置成创建的exchange的名字),第二个参数是路由键
 				channel.basicPublish(exchangeName, routingKey, true, MessageProperties.PERSISTENT_BASIC,
-						("第" + (i) + "条消息").getBytes());
+						("第:" + (i) + "条消息nextSeqNo:"+nextSeqNo).getBytes());
 				confirmSet.add(nextSeqNo);
 			}
 			channel.addReturnListener(new ReturnListener() {
 
-				public void handleReturn(int arg0, String arg1, String arg2, String arg3, BasicProperties arg4,
-						byte[] arg5) throws IOException {
+				public void handleReturn(int replyCode, String replyText, String exchange, String routingKey, BasicProperties properties,
+						byte[] body) throws IOException {
 					// 此处便是执行Basic.Return之后回调的地方
-					String message = new String(arg5);
-					System.out.println("Basic.Return返回的结果replyCode:" + arg0 + " replyText:" + arg2 + " routingKey:"
-							+ arg3 + " body:" + message);
+					String message = new String(body);
+					System.out.println("Basic.Return返回的结果replyCode:" + replyCode + " replyText:" + replyText + " routingKey:"
+							+ routingKey + " body:" + message);
 				}
 			});
 
